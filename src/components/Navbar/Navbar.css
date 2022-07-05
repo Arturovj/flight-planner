@@ -1,0 +1,17 @@
+.logo{
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 5px;
+}
+
+.navbar{
+background-color: #000;
+height: 80px;
+display: flex;
+padding: 0.5rem calc((100vw - 900px) / 2);
+z-index: 10;
+}
