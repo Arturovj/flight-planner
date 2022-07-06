@@ -54,7 +54,6 @@ const Flight = ({ flightSheetId }) => {
   useEffect(() => {
     setDots(getDotsItems());
     setLines(getLinesItems());
-    console.log("patata");
   }, [flightSheetId]);
 
   useEffect(() => {

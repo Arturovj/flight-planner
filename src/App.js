@@ -23,6 +23,7 @@ function App() {
         </div>
         <Map />
         <CheckList
+          flightSheetId={flightSheetId}
           setFlightSheetId={setFlightSheetId}
           deleteFlightSheet={deleteFlightSheet}
         />

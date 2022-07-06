@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ".//DronesList.css";
 
 export const DronesList = ({
@@ -6,7 +6,14 @@ export const DronesList = ({
   setDrones,
   setFlightSheetId,
   deleteFlightSheet,
+  flightSheetId
 }) => {
+//   const [isActive, setIsActive] = useState(false);
+
+//   const handleClick = () => {
+//     setIsActive((current) => !current);
+//   };
+
   const handleDelete = (droneIdToDelete) => {
     setDrones(
       drones.filter((drone) => {
@@ -28,14 +35,12 @@ export const DronesList = ({
   };
 
   useEffect(() => {
-    
-    if(drones.length !== 0) {
-        setFlightSheetId(drones[drones.length-1].id);
+    if (drones.length !== 0) {
+      setFlightSheetId(drones[drones.length - 1].id);
     }
-    if(drones.length === 0) {
-        setFlightSheetId(0);
+    if (drones.length === 0) {
+      setFlightSheetId(0);
     }
-    console.log(drones.length);
   }, [drones.length]);
 
   return (
@@ -44,14 +49,34 @@ export const DronesList = ({
         <li
           style={{
             cursor: "pointer",
+            backgroundColor: drone.id === flightSheetId ? "salmon" : "#12343b",
+            color: drone.id === flightSheetId  ? "white" : "#12343b",
           }}
-          onClick={() => setFlightSheetId(drone.id)}
+          onClick={() => {
+            // const newDrone = {
+            //   ...drone,
+            //   active: true,
+            // };
+            // setDrones((prevDrones) => {
+            //   return prevDrones.map((item) => {
+            //     if (item.id === drone.id) {
+            //       return newDrone;
+            //     } else {
+            //       const oldDrone = {
+            //         ...item,
+            //         active: false,
+            //       };
+            //       return oldDrone;
+            //     }
+            //   });
+            // });
+            // handleClick();
+            setFlightSheetId(drone.id);
+          }}
           className="drone-item"
           key={drone.index}
         >
-          <p type="text" className="list">
-            {drone.title}
-          </p>
+          <p className="list">{drone.title}</p>
           <div>
             <button
               className="button-complete task-button"
