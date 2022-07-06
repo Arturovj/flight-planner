@@ -2,7 +2,7 @@ import React from "react";
 import './Form.css';
 import { v4 as uuidv4 } from "uuid";
 
-export default function Form({ input, setInput, drones, setDrones }) {
+export default function Form({ input, setInput, drones, setDrones, setFlightSheetId }) {
 
     const onInputChange = (event) => {
         setInput(event.target.value)
@@ -12,6 +12,7 @@ export default function Form({ input, setInput, drones, setDrones }) {
         event.preventDefault()
         setDrones([...drones, { id: uuidv4(), title: input, completed: false }])
         setInput('')
+        setFlightSheetId()
     }
 
   return (

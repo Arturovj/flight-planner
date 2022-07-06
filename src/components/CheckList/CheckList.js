@@ -3,7 +3,7 @@ import { DronesList } from "../DronesList/DronesList";
 import Form from "../Form/Form";
 import "./CheckList.css";
 
-export default function CheckList() {
+export default function CheckList({ setFlightSheetId, deleteFlightSheet }) {
 
   const initialState = JSON.parse(localStorage.getItem("drones")) || [];
   const [input, setInput] = useState("");
@@ -23,12 +23,15 @@ export default function CheckList() {
           setInput={setInput}
           drones={drones}
           setDrones={setDrones}
+          setFlightSheetId={setFlightSheetId}
         />
       </div>
       <div>
         <DronesList
           drones={drones}
           setDrones={setDrones}
+          setFlightSheetId={setFlightSheetId}
+          deleteFlightSheet={deleteFlightSheet}
         />
       </div>
     </div>

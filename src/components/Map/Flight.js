@@ -2,36 +2,27 @@ import React, { useState, useEffect } from "react";
 import Dots from "../Dots/Dots";
 import "./Flight.css";
 
-
-const getDotsItems = () => {
-  let dots = localStorage.getItem("dots");
-  console.log(dots)
-  if (dots) {
-    return JSON.parse(localStorage.getItem("dots"));
-  }
-  else{
-    return [];
-  }
-}
-
-const getLinesItems = () => {
-  let lines = localStorage.getItem("lines");
-  console.log(lines)
-  if (lines) {
-    return JSON.parse(localStorage.getItem("lines"));
-  }
-  else{
-    return [];
-  }
-}
-
-
-
-const Flight = () => {
+const Flight = ({ flightSheetId }) => {
   const [dots, setDots] = useState([]);
   const [lines, setLines] = useState([]);
-  const [drones, setDrones] = useState(0)
-  
+
+  const getDotsItems = () => {
+    let dots = localStorage.getItem(`dots${flightSheetId}`);
+    if (dots) {
+      return JSON.parse(localStorage.getItem(`dots${flightSheetId}`));
+    } else {
+      return [];
+    }
+  };
+
+  const getLinesItems = () => {
+    let lines = localStorage.getItem(`lines${flightSheetId}`);
+    if (lines) {
+      return JSON.parse(localStorage.getItem(`lines${flightSheetId}`));
+    } else {
+      return [];
+    }
+  };
 
   useEffect(() => {
     if (dots.length > 1) {
@@ -40,55 +31,37 @@ const Flight = () => {
 
       setLines((lines) => {
         const line = {
-          label:
-              <svg
-              height="100%"
-              width="100%"
-              style={{
-                zIndex: 999,
-                position: "absolute",
-                top: 0,
-                left: 0,
-              }}
-            >
-              <line
-                x1={firstPoint?.position.x}
-                y1={firstPoint?.position.y}
-                x2={secondPoint?.position.x}
-                y2={secondPoint?.position.y}
-                style={{ stroke: "rgb(255,0,0)", strokeWidth: 2 }}
-              />
-            </svg>
+          position: {
+            x1: firstPoint?.position.x,
+            x2: secondPoint?.position.x,
+            y1: firstPoint?.position.y,
+            y2: secondPoint?.position.y,
+          },
         };
         const newLines = [...lines, line];
         return newLines;
       });
-      localStorage.setItem("dots", JSON.stringify(dots));
+      localStorage.setItem(`dots${flightSheetId}`, JSON.stringify(dots));
+
       // localStorage.setItem(`dots${drone}`)
-    
     }
   }, [dots]);
 
-  // cuando cambie el setDrones => un getItem (con un useEffect) del localStorage con el numero de drone 
-  
+  // cuando cambie el setDrones => un getItem (con un useEffect) del localStorage con el numero de drone
 
   //add data to localStorage
+
   useEffect(() => {
     setDots(getDotsItems());
     setLines(getLinesItems());
-    console.log('patata')
-  }, []);
+    console.log("patata");
+  }, [flightSheetId]);
 
   useEffect(() => {
-    console.log(lines)
-    if(lines.length > 0){
-      // localStorage.setItem("lines", JSON.stringify(lines));
+    if (lines.length > 0) {
+      localStorage.setItem(`lines${flightSheetId}`, JSON.stringify(lines));
     }
-  }
-  , [lines])
-
-
-
+  }, [lines]);
 
   return (
     <>
@@ -101,11 +74,16 @@ const Flight = () => {
                 y: event.clientY,
               },
             };
-            setDots((actualDots) => {
-              const newDots = [...actualDots];
-              newDots.push(point);
-              return newDots;
-            });
+            if (flightSheetId) {
+              setDots((actualDots) => {
+                const newDots = [...actualDots];
+                newDots.push(point);
+                return newDots;
+              });
+            } else{
+              alert("Please Add a drone first");
+            }
+
           }}
           style={{
             position: "absolute",
@@ -132,7 +110,27 @@ const Flight = () => {
         >
           {lines.length &&
             lines.map((line) => {
-              return line.label;
+              const { position } = line;
+              return (
+                <svg
+                  height="100%"
+                  width="100%"
+                  style={{
+                    zIndex: 999,
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  }}
+                >
+                  <line
+                    x1={position.x1}
+                    y1={position.y1}
+                    x2={position.x2}
+                    y2={position.y2}
+                    style={{ stroke: "rgb(255,0,0)", strokeWidth: 2 }}
+                  />
+                </svg>
+              );
             })}
         </div>
       </div>
