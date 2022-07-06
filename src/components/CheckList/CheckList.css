@@ -1,5 +1,14 @@
 .checklist-title{
     text-align: center;
-    margin-left: 80px;
-    margin-top: 80px;
+    margin-left: 160px;
+    margin-top: 40px;
 }
+
+.checklist-container{
+    background-color: #12343b;
+    min-width: 430px;
+    min-height: 300px;
+    box-sizing: border-box;
+    border-radius: 10px;
+   
+} 
